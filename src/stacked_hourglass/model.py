@@ -3,6 +3,7 @@ Hourglass network inserted in the pre-activated Resnet
 Use lr=0.01 for current version
 (c) YANG, Wei
 '''
+import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.hub import load_state_dict_from_url
@@ -191,25 +192,25 @@ def hg(**kwargs):
     return model
 
 
-def _hg(arch, pretrained, progress, map_location, **kwargs):
+def _hg(arch, pretrained, progress, **kwargs):
     model = hg(**kwargs)
     if pretrained:
         state_dict = load_state_dict_from_url(model_urls[arch], progress=progress,
-                                              map_location=map_location)
+                                              map_location=torch.device('cpu'))
         model.load_state_dict(state_dict)
     return model
 
 
-def hg1(pretrained=False, progress=True, num_blocks=1, num_classes=16, map_location=None):
+def hg1(pretrained=False, progress=True, num_blocks=1, num_classes=16):
     return _hg('hg1', pretrained, progress, num_stacks=1, num_blocks=num_blocks,
-               num_classes=num_classes, map_location=map_location)
+               num_classes=num_classes)
 
 
-def hg2(pretrained=False, progress=True, num_blocks=1, num_classes=16, map_location=None):
+def hg2(pretrained=False, progress=True, num_blocks=1, num_classes=16):
     return _hg('hg2', pretrained, progress, num_stacks=2, num_blocks=num_blocks,
-               num_classes=num_classes, map_location=map_location)
+               num_classes=num_classes)
 
 
-def hg8(pretrained=False, progress=True, num_blocks=1, num_classes=16, map_location=None):
+def hg8(pretrained=False, progress=True, num_blocks=1, num_classes=16):
     return _hg('hg8', pretrained, progress, num_stacks=8, num_blocks=num_blocks,
-               num_classes=num_classes, map_location=map_location)
+               num_classes=num_classes)
