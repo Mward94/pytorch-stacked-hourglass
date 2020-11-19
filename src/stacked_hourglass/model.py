@@ -191,24 +191,25 @@ def hg(**kwargs):
     return model
 
 
-def _hg(arch, pretrained, progress, **kwargs):
+def _hg(arch, pretrained, progress, map_location, **kwargs):
     model = hg(**kwargs)
     if pretrained:
-        state_dict = load_state_dict_from_url(model_urls[arch], progress=progress)
+        state_dict = load_state_dict_from_url(model_urls[arch], progress=progress,
+                                              map_location=map_location)
         model.load_state_dict(state_dict)
     return model
 
 
-def hg1(pretrained=False, progress=True, num_blocks=1, num_classes=16):
+def hg1(pretrained=False, progress=True, num_blocks=1, num_classes=16, map_location=None):
     return _hg('hg1', pretrained, progress, num_stacks=1, num_blocks=num_blocks,
-               num_classes=num_classes)
+               num_classes=num_classes, map_location=map_location)
 
 
-def hg2(pretrained=False, progress=True, num_blocks=1, num_classes=16):
+def hg2(pretrained=False, progress=True, num_blocks=1, num_classes=16, map_location=None):
     return _hg('hg2', pretrained, progress, num_stacks=2, num_blocks=num_blocks,
-               num_classes=num_classes)
+               num_classes=num_classes, map_location=map_location)
 
 
-def hg8(pretrained=False, progress=True, num_blocks=1, num_classes=16):
+def hg8(pretrained=False, progress=True, num_blocks=1, num_classes=16, map_location=None):
     return _hg('hg8', pretrained, progress, num_stacks=8, num_blocks=num_blocks,
-               num_classes=num_classes)
+               num_classes=num_classes, map_location=map_location)
